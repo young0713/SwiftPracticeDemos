@@ -25,5 +25,5 @@ This is a demo of SnapChat Menu.
 1. use of UIScrollView
 2. add ChildViewControllers in swift
 3. use of AVFoundation (AVCaptureSession)
-4. use of UILongPressGestureRecognizer
+4. use of UIBazierPath to achieve circle progress
 5. save video to Document
