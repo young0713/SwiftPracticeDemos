@@ -8,8 +8,9 @@
 
 import UIKit
 import AVFoundation
+import AVKit
 
-class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSampleBufferDelegate {
+class SnapChatCameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
     
     private let timerInternal : CGFloat = 0.05
     private let videoMaxLength : CGFloat = 10.0
@@ -20,7 +21,12 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
     
     private lazy var deviceInput : AVCaptureInput? = {
         
-        let device = AVCaptureDevice.default(for: AVMediaType.video)
+        let device : AVCaptureDevice? = AVCaptureDevice.default(for: AVMediaType.video)
+        
+        if device == nil {
+            return nil
+        }
+
         do {
             
             let input = try AVCaptureDeviceInput.init(device: device!)
@@ -30,7 +36,7 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
         }
     }()
     
-    private lazy var deviceOutput : AVCaptureMetadataOutput = AVCaptureMetadataOutput()
+    private lazy var deviceOutput : AVCaptureMovieFileOutput = AVCaptureMovieFileOutput()
     
     private lazy var previewLayer : AVCaptureVideoPreviewLayer = {
         
@@ -55,6 +61,7 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
         return progressLayer;
     }()
     
+    private var videoPath : String?
     private var timer : Timer?
     
     private var currentRecordTime : CGFloat = 0.0
@@ -67,10 +74,10 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
         self.view.backgroundColor = UIColor.white
         
         startScan()
-        addRecordBtn()
+        initSubViews()
     }
     
-    private func addRecordBtn() {
+    private func initSubViews() {
         recordBtn.setTitle("长按录制视频", for: UIControlState.normal)
         recordBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         recordBtn.setTitleColor(UIColor.red, for: UIControlState.normal)
@@ -86,6 +93,18 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
         
         recordBtn.layer.addSublayer(progressLayer)
         updateProgress(progress: 0)
+        
+        
+        let cancelBtn = UIButton.init(type: UIButtonType.custom)
+        cancelBtn.setTitle("取消", for: UIControlState.normal)
+        cancelBtn.setTitleColor(UIColor.red, for: UIControlState.normal)
+        cancelBtn.addTarget(self, action: #selector(onCancelBtnAction), for: UIControlEvents.touchUpInside)
+        cancelBtn.frame = CGRect(x: 20, y: 20, width: 60, height: 40)
+        view.addSubview(cancelBtn)
+    }
+    
+    @objc private func onCancelBtnAction() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func updateProgress(progress : CGFloat) {
@@ -97,6 +116,10 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
     
     private func startScan(){
         
+        if deviceInput == nil {
+            return
+        }
+        
         if !captureSession.canAddInput(deviceInput!) {
             return
         }
@@ -105,16 +128,16 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
             return
         }
         
+        captureSession.beginConfiguration()
+        
         captureSession.addInput(deviceInput!)
         captureSession.addOutput(deviceOutput)
-        deviceOutput.metadataObjectTypes = deviceOutput.availableMetadataObjectTypes
-        deviceOutput.setMetadataObjectsDelegate(self as? AVCaptureMetadataOutputObjectsDelegate, queue: DispatchQueue.main)
+//        deviceOutput.metadataObjectTypes = deviceOutput.availableMetadataObjectTypes
+//        deviceOutput.setMetadataObjectsDelegate(self as? AVCaptureMetadataOutputObjectsDelegate, queue: DispatchQueue.main)
         view.layer.insertSublayer(previewLayer, at: 0)
-        captureSession.startRunning()
-    }
-    
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        captureSession.commitConfiguration()
         
+        captureSession.startRunning()
     }
     
     @objc func onStartRecordVideo() -> Void{
@@ -126,6 +149,8 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
         }
         
         self.timer?.fireDate = Date.distantPast
+        
+        playerStartRecord()
     }
     
     @objc func onStopRecordVideo() -> Void{
@@ -135,6 +160,53 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
         self.timer?.fireDate = Date.distantFuture
         currentRecordTime = 0.0
         updateProgress(progress: 0.0)
+        
+        playerStopRecord()
+    }
+    
+    private func playerStartRecord() {
+        
+        let documentPath : String = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!
+        let timeInterval = Date.init().timeIntervalSince1970
+        videoPath = documentPath.appending(String(format:"/%.0f.mp4", timeInterval))
+        
+        if FileManager.default.fileExists(atPath: videoPath!) {
+            do { try FileManager.default.removeItem(atPath: videoPath!)
+            } catch { }
+        }
+        FileManager.default.createFile(atPath: videoPath!, contents: nil, attributes: nil)
+
+        deviceOutput.startRecording(to: URL.init(fileURLWithPath: videoPath!), recordingDelegate: self)
+    }
+    
+    private func playerStopRecord() {
+        deviceOutput.stopRecording()
+    }
+    
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        
+        let alertVc = UIAlertController.init(title: "提示", message: "视频录制成功，是否播放？", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction.init(title: "取消", style: UIAlertActionStyle.cancel) { (cancelAction : UIAlertAction) in
+            
+        }
+        
+        weak var weakSelf = self
+        let certainAction = UIAlertAction.init(title: "确定", style: UIAlertActionStyle.default) { (certainAction : UIAlertAction) in
+            
+            let playerVc = AVPlayerViewController.init()
+            let videoUrl = NSURL.fileURL(withPath: self.videoPath!)
+            playerVc.player = AVPlayer.init(url: videoUrl)
+            playerVc.videoGravity = AVLayerVideoGravity.resizeAspect.rawValue
+            playerVc.player?.play()
+            
+            weakSelf?.present(playerVc, animated: true, completion: nil)
+        }
+        
+        alertVc.addAction(cancelAction)
+        alertVc.addAction(certainAction)
+        
+        self.present(alertVc, animated: true, completion: nil)
     }
     
     @objc func countDown() -> Void{
@@ -142,26 +214,13 @@ class SnapChatCameraViewController: UIViewController, AVCaptureAudioDataOutputSa
         currentRecordTime += timerInternal
         updateProgress(progress: currentRecordTime / videoMaxLength)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print("SnapChatCameraViewController Will Appear")
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    deinit {
+        print("SnapChatCameraViewController deinit")
     }
-    */
-
 }
