@@ -8,9 +8,27 @@
 
 import UIKit
 
+enum ShowType {
+    case Push, Present
+}
+
+class DemoInfoModel: NSObject {
+    var title : String!
+    var className : String!
+    var showType : ShowType!
+    
+    init(title:String, className:String, showType:ShowType) {
+        self.title = title
+        self.className = className
+        self.showType = showType
+    }
+}
+
 class DemoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var listTableView : UITableView!
+    
+    var dataSourceArray : Array<DemoInfoModel>! = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,12 +36,27 @@ class DemoListViewController: UIViewController, UITableViewDelegate, UITableView
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.white
         title = "Demo"
+
+        createDatasource()
         
         listTableView = UITableView.init(frame: view.bounds, style: UITableViewStyle.plain)
         listTableView.delegate = self
         listTableView.dataSource = self
         listTableView.separatorStyle = UITableViewCellSeparatorStyle.none
         view.addSubview(listTableView)
+    }
+    
+    private func createDatasource() {
+        
+        let demo1Info = DemoInfoModel(title: "01、Stop Watch", className: "StopWatchViewController", showType: ShowType.Push)
+        let demo2Info = DemoInfoModel(title: "02、Play Local Video", className: "PlayLocalVideoViewController", showType: ShowType.Push)
+        let demo3Info = DemoInfoModel(title: "03、Snap Chat Menu", className: "SnapChatMenuViewController", showType: ShowType.Present)
+        let demo4Info = DemoInfoModel(title: "04、Banner", className: "BannerViewController", showType: ShowType.Push)
+        
+        dataSourceArray.append(demo1Info)
+        dataSourceArray.append(demo2Info)
+        dataSourceArray.append(demo3Info)
+        dataSourceArray.append(demo4Info)
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,7 +66,7 @@ class DemoListViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: UITableViewDelegate && UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 3;
+        return dataSourceArray.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
@@ -51,7 +84,10 @@ class DemoListViewController: UIViewController, UITableViewDelegate, UITableView
             cell?.addSubview(bottomLine)
         }
         
-        cell?.textLabel?.text = itemShowTitleWithIndex(index: indexPath.row)
+        if dataSourceArray.count > indexPath.row {
+            let infoModel = dataSourceArray[indexPath.row]
+            cell?.textLabel?.text = infoModel.title
+        }
         
         return cell!
     }
@@ -61,49 +97,23 @@ class DemoListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showVcWithIndex(index: indexPath.row)
-    }
-    
-    func itemShowTitleWithIndex(index : NSInteger) -> String? {
         
-        var title : String?
-        
-        switch index {
-        case 0:
-            title = "01、Stop Watch"
-            break
-        case 1:
-            title = "02、Play Local Video"
-            break
-        case 2:
-            title = "03、Snap Chat Menu"
-            break
-        default:
-            break
+        if dataSourceArray.count < indexPath.row {
+            return;
         }
         
-        return title
-    }
-    
-    func showVcWithIndex(index : NSInteger) -> Void {
-        
-        var showVc : UIViewController!
-        
-        switch index {
-        case 0:
-            showVc = StopWatchViewController()
-            navigationController?.pushViewController(showVc, animated: true)
-            break
-        case 1:
-            showVc = PlayLocalVideoViewController()
-            navigationController?.pushViewController(showVc, animated: true)
-            break
-        case 2:
-            showVc = SnapChatMenuViewController()
-            navigationController?.present(showVc, animated: true, completion: nil)
-            break
-        default:
-            break
+        let infoModel = dataSourceArray[indexPath.row]
+        let className = infoModel.className
+        if let aClass = NSClassFromString("SwiftDemos." + className!) {
+            if let vcClass = aClass as? UIViewController.Type {
+                let vc = vcClass.init()
+                
+                if infoModel.showType == ShowType.Push {
+                    navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    navigationController?.present(vc, animated: true, completion: nil)
+                }
+            }
         }
     }
 }

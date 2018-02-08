@@ -14,6 +14,7 @@
 		247FF95320219843006BF44B /* SnapChatHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247FF95220219843006BF44B /* SnapChatHomeViewController.swift */; };
 		247FF95520219857006BF44B /* SnapChatCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247FF95420219857006BF44B /* SnapChatCameraViewController.swift */; };
 		247FF95720219865006BF44B /* SnapChatStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247FF95620219865006BF44B /* SnapChatStoryViewController.swift */; };
+		24A7787C202C2354009B3C55 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A7787B202C2354009B3C55 /* BannerViewController.swift */; };
 		24F31EDC201F0C9B00502570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F31EDB201F0C9B00502570 /* AppDelegate.swift */; };
 		24F31EE3201F0C9B00502570 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24F31EE2201F0C9B00502570 /* Assets.xcassets */; };
 		24F31EEE201F0CD800502570 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F31EED201F0CD800502570 /* DemoListViewController.swift */; };
@@ -28,6 +29,7 @@
 		247FF95220219843006BF44B /* SnapChatHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapChatHomeViewController.swift; sourceTree = "<group>"; };
 		247FF95420219857006BF44B /* SnapChatCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapChatCameraViewController.swift; sourceTree = "<group>"; };
 		247FF95620219865006BF44B /* SnapChatStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapChatStoryViewController.swift; sourceTree = "<group>"; };
+		24A7787B202C2354009B3C55 /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		24F31ED8201F0C9B00502570 /* SwiftDemos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDemos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F31EDB201F0C9B00502570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24F31EE2201F0C9B00502570 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,6 +70,14 @@
 			path = 03SnapChatMenu;
 			sourceTree = "<group>";
 		};
+		24A7787A202C231F009B3C55 /* 04Banner */ = {
+			isa = PBXGroup;
+			children = (
+				24A7787B202C2354009B3C55 /* BannerViewController.swift */,
+			);
+			path = 04Banner;
+			sourceTree = "<group>";
+		};
 		24F31ECF201F0C9B00502570 = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +100,7 @@
 				24F31EF2201F15FD00502570 /* 01StopWatch */,
 				247FF93D2020100F006BF44B /* 02PlayLocalVideo */,
 				247FF94F20216975006BF44B /* 03SnapChatMenu */,
+				24A7787A202C231F009B3C55 /* 04Banner */,
 				24F31EDB201F0C9B00502570 /* AppDelegate.swift */,
 				24F31EE2201F0C9B00502570 /* Assets.xcassets */,
 				24F31EE7201F0C9B00502570 /* Info.plist */,
@@ -177,6 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24A7787C202C2354009B3C55 /* BannerViewController.swift in Sources */,
 				247FF95120219513006BF44B /* SnapChatMenuViewController.swift in Sources */,
 				247FF93F20201037006BF44B /* PlayLocalVideoViewController.swift in Sources */,
 				247FF95720219865006BF44B /* SnapChatStoryViewController.swift in Sources */,
