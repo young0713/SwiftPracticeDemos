@@ -37,5 +37,10 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>是否允许demo使用相机？</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

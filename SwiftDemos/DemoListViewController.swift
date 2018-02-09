@@ -49,13 +49,15 @@ class DemoListViewController: UIViewController, UITableViewDelegate, UITableView
     private func createDatasource() {
         
         let demo1Info = DemoInfoModel(title: "01、Stop Watch", className: "StopWatchViewController", showType: ShowType.Push)
-        let demo2Info = DemoInfoModel(title: "02、Play Local Video", className: "PlayLocalVideoViewController", showType: ShowType.Push)
-        let demo3Info = DemoInfoModel(title: "03、Snap Chat Menu", className: "SnapChatMenuViewController", showType: ShowType.Present)
-        let demo4Info = DemoInfoModel(title: "04、Banner", className: "BannerViewController", showType: ShowType.Push)
-        
         dataSourceArray.append(demo1Info)
+        
+        let demo2Info = DemoInfoModel(title: "02、Play Local Video", className: "PlayLocalVideoViewController", showType: ShowType.Push)
         dataSourceArray.append(demo2Info)
+        
+        let demo3Info = DemoInfoModel(title: "03、Snap Chat Menu", className: "SnapChatMenuViewController", showType: ShowType.Present)
         dataSourceArray.append(demo3Info)
+        
+        let demo4Info = DemoInfoModel(title: "04、Banner", className: "BannerViewController", showType: ShowType.Push)
         dataSourceArray.append(demo4Info)
     }
 
