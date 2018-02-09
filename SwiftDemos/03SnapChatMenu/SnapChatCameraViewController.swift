@@ -77,6 +77,15 @@ class SnapChatCameraViewController: UIViewController, AVCaptureFileOutputRecordi
         initSubViews()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (self.timer != nil) {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+    }
+    
     private func initSubViews() {
         recordBtn.setTitle("长按录制视频", for: UIControlState.normal)
         recordBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -132,8 +141,6 @@ class SnapChatCameraViewController: UIViewController, AVCaptureFileOutputRecordi
         
         captureSession.addInput(deviceInput!)
         captureSession.addOutput(deviceOutput)
-//        deviceOutput.metadataObjectTypes = deviceOutput.availableMetadataObjectTypes
-//        deviceOutput.setMetadataObjectsDelegate(self as? AVCaptureMetadataOutputObjectsDelegate, queue: DispatchQueue.main)
         view.layer.insertSublayer(previewLayer, at: 0)
         captureSession.commitConfiguration()
         
@@ -193,20 +200,23 @@ class SnapChatCameraViewController: UIViewController, AVCaptureFileOutputRecordi
         
         weak var weakSelf = self
         let certainAction = UIAlertAction.init(title: "确定", style: UIAlertActionStyle.default) { (certainAction : UIAlertAction) in
-            
-            let playerVc = AVPlayerViewController.init()
-            let videoUrl = NSURL.fileURL(withPath: self.videoPath!)
-            playerVc.player = AVPlayer.init(url: videoUrl)
-            playerVc.videoGravity = AVLayerVideoGravity.resizeAspect.rawValue
-            playerVc.player?.play()
-            
-            weakSelf?.present(playerVc, animated: true, completion: nil)
+            weakSelf?.showRecordedVideo()
         }
         
         alertVc.addAction(cancelAction)
         alertVc.addAction(certainAction)
         
         self.present(alertVc, animated: true, completion: nil)
+    }
+    
+    private func showRecordedVideo() {
+        let playerVc = AVPlayerViewController.init()
+        let videoUrl = NSURL.fileURL(withPath: self.videoPath!)
+        playerVc.player = AVPlayer.init(url: videoUrl)
+        playerVc.videoGravity = AVLayerVideoGravity.resizeAspect.rawValue
+        playerVc.player?.play()
+        
+        self.present(playerVc, animated: true, completion: nil)
     }
     
     @objc func countDown() -> Void{
