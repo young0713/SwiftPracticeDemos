@@ -35,3 +35,10 @@ This is a demo of Banner View.
 1. use of DispatchQueue, download image in async thread and show image in main thread
 2. basic MVC 
 3. think of writing common controls in project
+
+### Project 05 -- FindMyLocation ###
+
+Usage of CoreLocation.
+
+1. add 'Description of Location Usage'
+2. CLLocationManagerDelegate
