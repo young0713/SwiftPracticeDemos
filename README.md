@@ -27,3 +27,11 @@ This is a demo of SnapChat Menu.
 3. use of AVFoundation (AVCaptureSession)
 4. use of UIBazierPath to achieve circle progress
 5. save video to Document
+
+### Project 04 -- BannerView ###
+
+This is a demo of Banner View.
+
+1. use of DispatchQueue, download image in async thread and show image in main thread
+2. basic MVC 
+3. think of writing common controls in project
