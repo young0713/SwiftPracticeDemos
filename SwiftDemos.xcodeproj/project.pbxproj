@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		247CD363202E924600B2D3E1 /* FindMyLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247CD361202E924600B2D3E1 /* FindMyLocationViewController.swift */; };
+		247CD364202E924600B2D3E1 /* FindMyLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 247CD362202E924600B2D3E1 /* FindMyLocationViewController.xib */; };
 		247FF93F20201037006BF44B /* PlayLocalVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247FF93E20201037006BF44B /* PlayLocalVideoViewController.swift */; };
 		247FF943202013BC006BF44B /* 1515144463543zgwfc6qy9i.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 247FF942202013BB006BF44B /* 1515144463543zgwfc6qy9i.mp4 */; };
 		247FF94520201575006BF44B /* PlayVideoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247FF94420201575006BF44B /* PlayVideoViewCell.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		247CD361202E924600B2D3E1 /* FindMyLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyLocationViewController.swift; sourceTree = "<group>"; };
+		247CD362202E924600B2D3E1 /* FindMyLocationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FindMyLocationViewController.xib; sourceTree = "<group>"; };
 		247FF93E20201037006BF44B /* PlayLocalVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayLocalVideoViewController.swift; sourceTree = "<group>"; };
 		247FF942202013BB006BF44B /* 1515144463543zgwfc6qy9i.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1515144463543zgwfc6qy9i.mp4; sourceTree = "<group>"; };
 		247FF94420201575006BF44B /* PlayVideoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVideoViewCell.swift; sourceTree = "<group>"; };
@@ -49,6 +53,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		247CD360202E921A00B2D3E1 /* 05FindMyLocation */ = {
+			isa = PBXGroup;
+			children = (
+				247CD361202E924600B2D3E1 /* FindMyLocationViewController.swift */,
+				247CD362202E924600B2D3E1 /* FindMyLocationViewController.xib */,
+			);
+			path = 05FindMyLocation;
+			sourceTree = "<group>";
+		};
 		247FF93D2020100F006BF44B /* 02PlayLocalVideo */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,14 +110,15 @@
 		24F31EDA201F0C9B00502570 /* SwiftDemos */ = {
 			isa = PBXGroup;
 			children = (
+				24F31EED201F0CD800502570 /* DemoListViewController.swift */,
 				24F31EF2201F15FD00502570 /* 01StopWatch */,
 				247FF93D2020100F006BF44B /* 02PlayLocalVideo */,
 				247FF94F20216975006BF44B /* 03SnapChatMenu */,
 				24A7787A202C231F009B3C55 /* 04Banner */,
+				247CD360202E921A00B2D3E1 /* 05FindMyLocation */,
 				24F31EDB201F0C9B00502570 /* AppDelegate.swift */,
 				24F31EE2201F0C9B00502570 /* Assets.xcassets */,
 				24F31EE7201F0C9B00502570 /* Info.plist */,
-				24F31EED201F0CD800502570 /* DemoListViewController.swift */,
 			);
 			path = SwiftDemos;
 			sourceTree = "<group>";
@@ -177,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24F31EE3201F0C9B00502570 /* Assets.xcassets in Resources */,
+				247CD364202E924600B2D3E1 /* FindMyLocationViewController.xib in Resources */,
 				247FF943202013BC006BF44B /* 1515144463543zgwfc6qy9i.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -193,6 +208,7 @@
 				247FF93F20201037006BF44B /* PlayLocalVideoViewController.swift in Sources */,
 				247FF95720219865006BF44B /* SnapChatStoryViewController.swift in Sources */,
 				24F31EDC201F0C9B00502570 /* AppDelegate.swift in Sources */,
+				247CD363202E924600B2D3E1 /* FindMyLocationViewController.swift in Sources */,
 				247FF95520219857006BF44B /* SnapChatCameraViewController.swift in Sources */,
 				24F31EF4201F161100502570 /* StopWatchViewController.swift in Sources */,
 				247FF95320219843006BF44B /* SnapChatHomeViewController.swift in Sources */,

@@ -59,6 +59,9 @@ class DemoListViewController: UIViewController, UITableViewDelegate, UITableView
         
         let demo4Info = DemoInfoModel(title: "04、Banner", className: "BannerViewController", showType: ShowType.Push)
         dataSourceArray.append(demo4Info)
+        
+        let demo5Info = DemoInfoModel(title: "05、FindMyLocation", className: "FindMyLocationViewController", showType: ShowType.Push)
+        dataSourceArray.append(demo5Info)
     }
 
     override func didReceiveMemoryWarning() {
